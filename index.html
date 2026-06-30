@@ -1160,17 +1160,17 @@ let lbxPhotos = [], lbxIdx = 0, lbxReport = null;
 (function authGuard(){
   try{
     const raw = sessionStorage.getItem('uaUser');
-    if(!raw){ window.location.href='login-Admin.html'; return; }
+    if(!raw){ window.location.href='login-united.html'; return; }
     const user = JSON.parse(raw);
     if(!user || String(user.role||'').trim().toLowerCase()!=='united'){
       sessionStorage.removeItem('uaUser');
-      window.location.href='login-Admin.html'; return;
+      window.location.href='login-united.html'; return;
     }
     document.getElementById('userPillName').textContent = user.username || 'United';
-  }catch(e){ window.location.href='login-Admin.html'; }
+  }catch(e){ window.location.href='login-united.html'; }
 })();
 function logout(){
-  if(confirm('¿Cerrar sesión?')){ sessionStorage.removeItem('uaUser'); window.location.href='login-Admin.html'; }
+  if(confirm('¿Cerrar sesión?')){ sessionStorage.removeItem('uaUser'); window.location.href='login-united.html'; }
 }
 
 // ══ SCROLL PLANE ANIMATION ══
@@ -1705,7 +1705,7 @@ function parseTMin(val){if(!val||val==='null')return null;const s=String(val).tr
 function elapsedMin(r){const cps=r.checkpoints||[];const briefing=cps.find(c=>c.label==='Briefing');const startM=briefing?parseTMin(briefing.timestamp):null;if(startM===null)return null;if(r.status==='Completado'){const ms=cps.map(c=>parseTMin(c.timestamp)).filter(m=>m!==null).sort((a,b)=>b-a);if(ms.length)return+(ms[0]-startM).toFixed(0);}const now=new Date();return+(now.getHours()*60+now.getMinutes()-startM).toFixed(0);}
 function showToast(msg,isErr=false){const t=document.getElementById('toast');t.textContent=msg;t.className='toast'+(isErr?' err':'');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
 
-let _jsonpCounter = 0;
+var _jsonpCounter = 0;
 function jsonp(id,url,timeout,onData,onFail){
   const old=document.getElementById(id);if(old)old.remove();
   // Nombre de callback corto y simple (evita truncado/sanitización en algunos backends GAS)
