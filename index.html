@@ -103,6 +103,17 @@ body { font-family:'Inter',sans-serif; background:var(--ua-dark); min-height:100
   font-size:10px; font-weight:700; color:var(--ua-sky);
   font-family:'JetBrains Mono',monospace; letter-spacing:1px;
 }
+.user-pill {
+  display:flex; align-items:center; gap:6px;
+  padding:5px 13px;
+  background:rgba(244,200,66,0.08);
+  border:1px solid rgba(244,200,66,0.28);
+  border-radius:20px;
+  font-size:10px; font-weight:700; color:var(--ua-gold);
+  font-family:'JetBrains Mono',monospace; letter-spacing:.5px;
+  cursor:pointer; transition:all .2s;
+}
+.user-pill:hover { background:rgba(244,200,66,0.16); }
 .refresh-btn {
   display:flex; align-items:center; gap:6px;
   padding:7px 16px;
@@ -234,6 +245,8 @@ body { font-family:'Inter',sans-serif; background:var(--ua-dark); min-height:100
 }
 .tb-blue { background:rgba(0,80,160,0.2); color:var(--ua-sky); }
 .tb-purple { background:rgba(139,92,246,0.2); color:#c4b5fd; }
+.tb-red { background:rgba(239,68,68,0.2); color:#fca5a5; }
+.tb-gold { background:rgba(244,200,66,0.2); color:var(--ua-gold); }
 .tab-panel { display:none; }
 .tab-panel.active { display:block; }
 
@@ -605,15 +618,152 @@ body { font-family:'Inter',sans-serif; background:var(--ua-dark); min-height:100
   .ft-head, .ft-row { grid-template-columns:1.6fr 1fr 1fr .9fr; }
   .ft-hcell:nth-child(3),.ft-hcell:nth-child(5),.ft-cell:nth-child(3),.ft-cell:nth-child(5) { display:none; }
 }
+/* ══ SMS / SOLICITUDES FORMS ══ */
+.sms-layout { display:grid; grid-template-columns:1.6fr 1fr; gap:16px; align-items:start; }
+.sms-form-card, .sms-history-card {
+  background:var(--ua-card);
+  border:1px solid var(--ua-border-2);
+  border-radius:var(--radius-lg);
+  padding:24px 26px;
+}
+.sms-history-card { position:sticky; top:160px; max-height:640px; overflow-y:auto; }
+.sms-form-title { font-size:17px; font-weight:800; color:#fff; margin-bottom:6px; }
+.sms-form-sub { font-size:12px; color:var(--ua-muted); line-height:1.6; margin-bottom:22px; }
+.sms-field { margin-bottom:18px; }
+.sms-field label {
+  display:block; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px;
+  color:var(--ua-muted); font-family:'JetBrains Mono',monospace; margin-bottom:8px;
+}
+.sms-field-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.sms-input, .sms-textarea {
+  width:100%; padding:11px 14px;
+  background:rgba(3,12,26,0.7);
+  border:1px solid var(--ua-border-2);
+  border-radius:10px; color:#fff;
+  font-size:13px; outline:none; transition:all .2s;
+  font-family:'Inter',sans-serif;
+}
+.sms-input:focus, .sms-textarea:focus { border-color:var(--ua-blue-2); background:rgba(3,12,26,0.9); box-shadow:0 0 0 3px rgba(0,80,160,0.12); }
+.sms-input::placeholder, .sms-textarea::placeholder { color:#365876; }
+.sms-textarea { resize:vertical; font-family:'Inter',sans-serif; line-height:1.5; }
+.sms-input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter:invert(.55); cursor:pointer; }
+
+.chip-select { display:flex; flex-wrap:wrap; gap:8px; }
+.chip {
+  padding:8px 14px;
+  background:rgba(3,12,26,0.7);
+  border:1px solid var(--ua-border-2);
+  border-radius:20px; color:var(--ua-muted);
+  font-size:12px; font-weight:600; cursor:pointer; transition:all .18s;
+  font-family:'Inter',sans-serif;
+}
+.chip:hover { border-color:var(--ua-border); color:var(--ua-text); }
+.chip.selected {
+  background:rgba(0,80,160,0.22); border-color:var(--ua-sky); color:var(--ua-sky);
+  box-shadow:0 0 0 1px rgba(77,170,255,0.2);
+}
+
+.risk-select { display:flex; gap:8px; flex-wrap:wrap; }
+.risk-btn {
+  display:flex; align-items:center; gap:7px;
+  padding:9px 16px;
+  background:rgba(3,12,26,0.7);
+  border:1px solid var(--ua-border-2);
+  border-radius:20px; color:var(--ua-muted);
+  font-size:12px; font-weight:700; cursor:pointer; transition:all .18s;
+  font-family:'Inter',sans-serif;
+}
+.risk-dot { width:8px; height:8px; border-radius:50%; background:var(--ua-muted); flex-shrink:0; }
+.risk-btn:hover { border-color:var(--ua-border); }
+.risk-btn.selected.risk-low  { background:rgba(16,185,129,0.16); border-color:#10B981; color:#6EE7B7; }
+.risk-btn.selected.risk-low  .risk-dot { background:#10B981; box-shadow:0 0 6px #10B981; }
+.risk-btn.selected.risk-med  { background:rgba(244,200,66,0.16); border-color:var(--ua-gold); color:var(--ua-gold); }
+.risk-btn.selected.risk-med  .risk-dot { background:var(--ua-gold); box-shadow:0 0 6px var(--ua-gold); }
+.risk-btn.selected.risk-high { background:rgba(249,115,22,0.16); border-color:#F97316; color:#FDBA74; }
+.risk-btn.selected.risk-high .risk-dot { background:#F97316; box-shadow:0 0 6px #F97316; }
+.risk-btn.selected.risk-crit { background:rgba(239,68,68,0.16); border-color:#EF4444; color:#FCA5A5; }
+.risk-btn.selected.risk-crit .risk-dot { background:#EF4444; box-shadow:0 0 6px #EF4444; }
+
+.sms-submit-btn {
+  width:100%; padding:15px;
+  background:linear-gradient(135deg, #EF4444, #DC2626);
+  border:none; border-radius:12px;
+  color:#fff; font-size:14px; font-weight:800; letter-spacing:.3px;
+  cursor:pointer; transition:all .25s;
+  margin-top:6px;
+  box-shadow:0 4px 18px rgba(239,68,68,0.3);
+  font-family:'Inter',sans-serif;
+}
+.sms-submit-btn:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 10px 28px rgba(239,68,68,0.42); }
+.sms-submit-btn:disabled { opacity:.6; cursor:not-allowed; }
+.sms-submit-btn.sol-submit {
+  background:linear-gradient(135deg, var(--ua-blue), var(--ua-blue-3));
+  box-shadow:0 4px 18px rgba(0,80,160,0.35);
+}
+.sms-submit-btn.sol-submit:hover:not(:disabled) { box-shadow:0 10px 28px rgba(0,80,160,0.5); }
+
+.sms-msg {
+  margin-top:14px; padding:11px 15px; border-radius:10px;
+  font-size:12px; text-align:center; display:none;
+  font-family:'JetBrains Mono',monospace; line-height:1.5;
+}
+.sms-msg.error   { background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:#FCA5A5; }
+.sms-msg.success { background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.3); color:#6EE7B7; }
+
+.empty-mini { color:var(--ua-muted); font-size:12px; text-align:center; padding:30px 10px; line-height:1.6; }
+
+.report-card {
+  background:rgba(3,12,26,0.6);
+  border:1px solid var(--ua-border-2);
+  border-left:3px solid var(--ua-blue-2);
+  border-radius:10px; padding:13px 15px; margin-bottom:10px;
+  animation:rowSlide .3s ease both;
+}
+.report-card.rc-low  { border-left-color:#10B981; }
+.report-card.rc-med  { border-left-color:var(--ua-gold); }
+.report-card.rc-high { border-left-color:#F97316; }
+.report-card.rc-crit { border-left-color:#EF4444; }
+.report-card.rc-normal { border-left-color:var(--ua-sky); }
+.report-card.rc-urgent { border-left-color:var(--ua-gold); }
+.rc-top { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:6px; }
+.rc-cat { font-size:11px; font-weight:700; color:#fff; }
+.rc-risk-tag {
+  font-size:9px; font-weight:700; padding:2px 8px; border-radius:6px;
+  font-family:'JetBrains Mono',monospace; flex-shrink:0;
+}
+.rc-desc { font-size:11px; color:var(--ua-text); line-height:1.5; margin-bottom:6px; max-height:54px; overflow:hidden; text-overflow:ellipsis; }
+.rc-meta { font-size:9px; color:var(--ua-muted); font-family:'JetBrains Mono',monospace; }
+
+@media(max-width:900px) {
+  .sms-layout { grid-template-columns:1fr; }
+  .sms-history-card { position:static; max-height:none; }
+  .sms-field-row { grid-template-columns:1fr; }
+}
+
 @media(max-width:560px) {
   .hero-metrics { grid-template-columns:1fr; }
   .shift-row { grid-template-columns:1fr; }
   .lbx-strip { width:80px; }
 }
+
+/* ══ SCROLL PLANE ══ */
+#scrollPlane {
+  position:fixed;
+  top:90px; right:38px;
+  font-size:34px;
+  z-index:60;
+  pointer-events:none;
+  filter:drop-shadow(0 4px 14px rgba(77,170,255,0.45));
+  transition:transform .25s cubic-bezier(.4,0,.2,1), top .25s cubic-bezier(.4,0,.2,1);
+  transform:rotate(90deg);
+  will-change:transform, top;
+}
+@media(max-width:768px){ #scrollPlane{ right:18px; font-size:26px; top:80px; } }
 </style>
 </head>
 <body>
 <canvas id="bg-canvas"></canvas>
+<div id="scrollPlane">✈️</div>
 <div class="shell">
 
   <!-- ══ MASTHEAD ══ -->
@@ -629,6 +779,7 @@ body { font-family:'Inter',sans-serif; background:var(--ua-dark); min-height:100
       <div class="masthead-right">
         <div class="live-pill"><div class="live-dot"></div>LIVE OPS</div>
         <div class="handler-badge">AS GROUND HANDLING</div>
+        <div class="user-pill" id="userPill" onclick="logout()" title="Cerrar sesión">👤 <span id="userPillName">–</span> · Salir</div>
         <button class="refresh-btn" id="refreshBtn" onclick="loadData(true)">
           <span class="spin">↻</span> Actualizar
         </button>
@@ -681,6 +832,8 @@ body { font-family:'Inter',sans-serif; background:var(--ua-dark); min-height:100
     <div class="tabs-wrap">
       <button class="tab-btn active" onclick="switchTab('vuelos',this)">✈️ Mis Vuelos <span class="tab-badge tb-blue" id="tbVuelos">0</span></button>
       <button class="tab-btn" onclick="switchTab('analytics',this)">📊 Analytics <span class="tab-badge tb-purple">NEW</span></button>
+      <button class="tab-btn" onclick="switchTab('sms',this)">🛡️ Reporte SMS <span class="tab-badge tb-red" id="tbSms">0</span></button>
+      <button class="tab-btn" onclick="switchTab('solicitudes',this)">📝 Solicitudes <span class="tab-badge tb-gold" id="tbSol">0</span></button>
     </div>
 
     <!-- TAB: VUELOS -->
@@ -751,6 +904,155 @@ body { font-family:'Inter',sans-serif; background:var(--ua-dark); min-height:100
       </div>
 
     </div><!-- /analytics -->
+
+    <!-- TAB: SMS -->
+    <div class="tab-panel" id="tab-sms">
+      <div class="section-label">safety management system · nuevo reporte</div>
+      <div class="sms-layout">
+        <div class="sms-form-card">
+          <div class="sms-form-title">🛡️ Reportar Evento de Seguridad</div>
+          <div class="sms-form-sub">Los reportes SMS ayudan a identificar riesgos operacionales de forma proactiva. Toda la información se comparte con AS Ground Handling para seguimiento conjunto.</div>
+
+          <div class="sms-field">
+            <label>Categoría del Evento</label>
+            <div class="chip-select" id="smsCategoryChips">
+              <button type="button" class="chip" data-val="FOD">🔩 FOD</button>
+              <button type="button" class="chip" data-val="GSE">🚜 Equipo GSE</button>
+              <button type="button" class="chip" data-val="RAMP">🛞 Rampa</button>
+              <button type="button" class="chip" data-val="CARGA">📦 Carga / Equipaje</button>
+              <button type="button" class="chip" data-val="PAX">🧍 Pasajero</button>
+              <button type="button" class="chip" data-val="AERONAVE">✈️ Daño a Aeronave</button>
+              <button type="button" class="chip" data-val="PROCEDIMIENTO">📋 Procedimiento</button>
+              <button type="button" class="chip" data-val="OTRO">❓ Otro</button>
+            </div>
+          </div>
+
+          <div class="sms-field">
+            <label>Nivel de Riesgo</label>
+            <div class="risk-select" id="smsRiskSelect">
+              <button type="button" class="risk-btn risk-low" data-val="Bajo"><span class="risk-dot"></span>Bajo</button>
+              <button type="button" class="risk-btn risk-med" data-val="Medio"><span class="risk-dot"></span>Medio</button>
+              <button type="button" class="risk-btn risk-high" data-val="Alto"><span class="risk-dot"></span>Alto</button>
+              <button type="button" class="risk-btn risk-crit" data-val="Crítico"><span class="risk-dot"></span>Crítico</button>
+            </div>
+          </div>
+
+          <div class="sms-field-row">
+            <div class="sms-field">
+              <label>Vuelo Relacionado (opcional)</label>
+              <input type="text" id="smsFlight" class="sms-input" placeholder="Ej. UA 1542">
+            </div>
+            <div class="sms-field">
+              <label>Fecha / Hora del Evento</label>
+              <input type="datetime-local" id="smsDateTime" class="sms-input">
+            </div>
+          </div>
+
+          <div class="sms-field">
+            <label>Personas Involucradas o en Riesgo</label>
+            <input type="text" id="smsPeople" class="sms-input" placeholder="Ej. 2 agentes de rampa, 1 supervisor — o 'Ninguna'">
+          </div>
+
+          <div class="sms-field">
+            <label>Ubicación</label>
+            <input type="text" id="smsLocation" class="sms-input" placeholder="Ej. Posición 14, plataforma SAL">
+          </div>
+
+          <div class="sms-field">
+            <label>Descripción del Evento</label>
+            <textarea id="smsDescription" class="sms-textarea" rows="5" placeholder="Describa qué ocurrió, cuándo, cómo se detectó y cualquier acción inmediata tomada..."></textarea>
+          </div>
+
+          <div class="sms-field">
+            <label>Su Nombre / Cargo (reportante)</label>
+            <input type="text" id="smsReporter" class="sms-input" placeholder="Nombre completo y cargo">
+          </div>
+
+          <button class="sms-submit-btn" id="smsSubmitBtn" onclick="submitSMS()">
+            <span id="smsSubmitTxt">🛡️ Enviar Reporte SMS</span>
+          </button>
+          <div class="sms-msg" id="smsMsg"></div>
+        </div>
+
+        <div class="sms-history-card">
+          <div class="an-card-title" style="margin-bottom:14px;">📂 Mis Reportes Enviados</div>
+          <div id="smsHistoryList"><div class="empty-mini">Aún no has enviado reportes SMS en esta sesión.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: SOLICITUDES -->
+    <div class="tab-panel" id="tab-solicitudes">
+      <div class="section-label">solicitudes adicionales · servicios de tierra</div>
+      <div class="sms-layout">
+        <div class="sms-form-card">
+          <div class="sms-form-title">📝 Nueva Solicitud</div>
+          <div class="sms-form-sub">Solicita servicios adicionales coordinados por AS Ground Handling. Las solicitudes son revisadas y confirmadas por el equipo de operaciones en tierra.</div>
+
+          <div class="sms-field">
+            <label>Tipo de Solicitud</label>
+            <div class="chip-select" id="solTypeChips">
+              <button type="button" class="chip" data-val="CREW_TRANSPORT">🚐 Transporte de Crew</button>
+              <button type="button" class="chip" data-val="AIRCRAFT_RELOCATION">✈️ Traslado de Aeronave</button>
+              <button type="button" class="chip" data-val="ADDITIONAL_GSE">🚜 Equipo GSE Adicional</button>
+              <button type="button" class="chip" data-val="DEICING">❄️ Deicing</button>
+              <button type="button" class="chip" data-val="CATERING">🍽️ Catering Extra</button>
+              <button type="button" class="chip" data-val="OTRO">📌 Otro</button>
+            </div>
+          </div>
+
+          <div class="sms-field-row">
+            <div class="sms-field">
+              <label>Vuelo Relacionado</label>
+              <input type="text" id="solFlight" class="sms-input" placeholder="Ej. UA 1542">
+            </div>
+            <div class="sms-field">
+              <label>Fecha / Hora Requerida</label>
+              <input type="datetime-local" id="solDateTime" class="sms-input">
+            </div>
+          </div>
+
+          <div class="sms-field" id="solCrewCountWrap" style="display:none;">
+            <label>Cantidad de Crew a Transportar</label>
+            <input type="number" id="solCrewCount" class="sms-input" placeholder="Ej. 6" min="1">
+          </div>
+
+          <div class="sms-field" id="solOriginDestWrap" style="display:none;">
+            <label>Origen → Destino</label>
+            <input type="text" id="solOriginDest" class="sms-input" placeholder="Ej. Posición 14 → Hangar Norte">
+          </div>
+
+          <div class="sms-field">
+            <label>Detalle de la Solicitud</label>
+            <textarea id="solDetail" class="sms-textarea" rows="4" placeholder="Describa la solicitud con el detalle necesario para coordinarla..."></textarea>
+          </div>
+
+          <div class="sms-field">
+            <label>Prioridad</label>
+            <div class="risk-select" id="solPrioritySelect">
+              <button type="button" class="risk-btn risk-low" data-val="Normal"><span class="risk-dot"></span>Normal</button>
+              <button type="button" class="risk-btn risk-med" data-val="Urgente"><span class="risk-dot"></span>Urgente</button>
+              <button type="button" class="risk-btn risk-crit" data-val="Crítica"><span class="risk-dot"></span>Crítica</button>
+            </div>
+          </div>
+
+          <div class="sms-field">
+            <label>Su Nombre / Cargo (solicitante)</label>
+            <input type="text" id="solRequester" class="sms-input" placeholder="Nombre completo y cargo">
+          </div>
+
+          <button class="sms-submit-btn sol-submit" id="solSubmitBtn" onclick="submitSolicitud()">
+            <span id="solSubmitTxt">📝 Enviar Solicitud</span>
+          </button>
+          <div class="sms-msg" id="solMsg"></div>
+        </div>
+
+        <div class="sms-history-card">
+          <div class="an-card-title" style="margin-bottom:14px;">📂 Mis Solicitudes Enviadas</div>
+          <div id="solHistoryList"><div class="empty-mini">Aún no has enviado solicitudes en esta sesión.</div></div>
+        </div>
+      </div>
+    </div>
 
   </main>
 </div>
@@ -853,6 +1155,51 @@ let dateFilter = 'today', customDateVal = null;
 let chartInstances = {};
 let currentFlight = null;
 let lbxPhotos = [], lbxIdx = 0, lbxReport = null;
+
+// ══ SESSION GUARD ══
+(function authGuard(){
+  try{
+    const raw = sessionStorage.getItem('uaUser');
+    if(!raw){ window.location.href='login-united.html'; return; }
+    const user = JSON.parse(raw);
+    if(!user || String(user.role||'').trim().toLowerCase()!=='united'){
+      sessionStorage.removeItem('uaUser');
+      window.location.href='login-united.html'; return;
+    }
+    document.getElementById('userPillName').textContent = user.username || 'United';
+  }catch(e){ window.location.href='login-united.html'; }
+})();
+function logout(){
+  if(confirm('¿Cerrar sesión?')){ sessionStorage.removeItem('uaUser'); window.location.href='login-united.html'; }
+}
+
+// ══ SCROLL PLANE ANIMATION ══
+// Baja con el scroll hacia abajo (nariz hacia abajo, gira a la dirección de vuelo);
+// al subir, gira 90° y "asciende" como despegando.
+(function scrollPlane(){
+  const plane = document.getElementById('scrollPlane');
+  if(!plane) return;
+  let lastY = window.scrollY, ticking=false;
+  const baseTop = 90;
+  function update(){
+    const y = window.scrollY;
+    const goingDown = y > lastY;
+    const docH = Math.max(document.body.scrollHeight - window.innerHeight, 1);
+    const pct = Math.min(Math.max(y / docH, 0), 1);
+    const topPos = baseTop + pct * 380; // desciende a medida que se scrollea
+    if(goingDown){
+      plane.style.transform = 'rotate(180deg)'; // nariz hacia abajo, "descendiendo"
+    } else {
+      plane.style.transform = 'rotate(90deg)'; // girado 90°, "ascendiendo"
+    }
+    plane.style.top = topPos + 'px';
+    lastY = y;
+    ticking = false;
+  }
+  window.addEventListener('scroll', () => {
+    if(!ticking){ requestAnimationFrame(update); ticking = true; }
+  }, {passive:true});
+})();
 
 // ══ BOOT ══
 initBG();
@@ -1369,6 +1716,233 @@ function jsonp(id,url,timeout,onData,onFail){
   script.onerror=()=>{if(fired)return;fired=true;clearTimeout(timer);cleanup();onFail('error');};
   document.body.appendChild(script);
   script.src=url+(url.indexOf('?')>=0?'&':'?')+'callback='+cb;
+}
+
+// ══════════════════════════════════════════════════════
+//  SMS · SAFETY MANAGEMENT SYSTEM
+// ══════════════════════════════════════════════════════
+let smsCategory=null, smsRisk=null, smsHistory=[];
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.querySelectorAll('#smsCategoryChips .chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      document.querySelectorAll('#smsCategoryChips .chip').forEach(c=>c.classList.remove('selected'));
+      chip.classList.add('selected'); smsCategory=chip.dataset.val;
+    });
+  });
+  document.querySelectorAll('#smsRiskSelect .risk-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('#smsRiskSelect .risk-btn').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected'); smsRisk=btn.dataset.val;
+    });
+  });
+  // Solicitudes
+  document.querySelectorAll('#solTypeChips .chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      document.querySelectorAll('#solTypeChips .chip').forEach(c=>c.classList.remove('selected'));
+      chip.classList.add('selected'); solType=chip.dataset.val;
+      document.getElementById('solCrewCountWrap').style.display = (solType==='CREW_TRANSPORT')?'block':'none';
+      document.getElementById('solOriginDestWrap').style.display = (solType==='CREW_TRANSPORT'||solType==='AIRCRAFT_RELOCATION')?'block':'none';
+    });
+  });
+  document.querySelectorAll('#solPrioritySelect .risk-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('#solPrioritySelect .risk-btn').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected'); solPriority=btn.dataset.val;
+    });
+  });
+});
+
+function submitSMS(){
+  const description=document.getElementById('smsDescription').value.trim();
+  const reporter=document.getElementById('smsReporter').value.trim();
+  if(!smsCategory){ smsMsg('Selecciona una categoría del evento.','error'); return; }
+  if(!smsRisk){ smsMsg('Selecciona el nivel de riesgo.','error'); return; }
+  if(!description){ smsMsg('Describe el evento antes de enviar.','error'); return; }
+  if(!reporter){ smsMsg('Indica tu nombre y cargo.','error'); return; }
+
+  const payload={
+    action:'submitSMS',
+    aerolinea:'United Airlines',
+    categoria:smsCategory,
+    riesgo:smsRisk,
+    vuelo:document.getElementById('smsFlight').value.trim()||'–',
+    fechaHora:document.getElementById('smsDateTime').value||new Date().toISOString(),
+    personas:document.getElementById('smsPeople').value.trim()||'Ninguna reportada',
+    ubicacion:document.getElementById('smsLocation').value.trim()||'–',
+    descripcion:description,
+    reportante:reporter,
+    timestamp:new Date().toISOString()
+  };
+
+  const btn=document.getElementById('smsSubmitBtn'), txt=document.getElementById('smsSubmitTxt');
+  btn.disabled=true; txt.textContent='Enviando…';
+
+  const cb='smsCb'+Date.now();
+  const params=new URLSearchParams(payload).toString();
+  jsonp(cb, GAS_URL+'?'+params, 12000,
+    data=>{
+      btn.disabled=false; txt.textContent='🛡️ Enviar Reporte SMS';
+      if(data&&data.success!==false){
+        smsMsg('✓ Reporte SMS enviado correctamente. AS Ground Handling dará seguimiento.','success');
+        smsHistory.unshift(payload);
+        renderSmsHistory();
+        clearSmsForm();
+      } else {
+        smsMsg('✗ '+(data&&data.message?data.message:'No se pudo enviar. Intenta nuevamente.'),'error');
+        // Aún así guardar localmente para que el usuario no pierda el registro
+        smsHistory.unshift(payload); renderSmsHistory();
+      }
+    },
+    ()=>{
+      btn.disabled=false; txt.textContent='🛡️ Enviar Reporte SMS';
+      smsMsg('⚠ No se pudo confirmar el envío al servidor, pero tu reporte quedó guardado localmente en esta sesión.','error');
+      smsHistory.unshift(payload); renderSmsHistory();
+    }
+  );
+}
+
+function clearSmsForm(){
+  document.getElementById('smsFlight').value='';
+  document.getElementById('smsDateTime').value='';
+  document.getElementById('smsPeople').value='';
+  document.getElementById('smsLocation').value='';
+  document.getElementById('smsDescription').value='';
+  document.getElementById('smsReporter').value='';
+  document.querySelectorAll('#smsCategoryChips .chip').forEach(c=>c.classList.remove('selected'));
+  document.querySelectorAll('#smsRiskSelect .risk-btn').forEach(b=>b.classList.remove('selected'));
+  smsCategory=null; smsRisk=null;
+}
+
+function smsMsg(text,type){
+  const m=document.getElementById('smsMsg');
+  m.textContent=text; m.className='sms-msg '+type; m.style.display='block';
+  setTimeout(()=>{ m.style.display='none'; }, 6000);
+}
+
+function riskClass(r){
+  const v=(r||'').toLowerCase();
+  if(v==='bajo'||v==='normal')return'rc-low';
+  if(v==='medio'||v==='urgente')return'rc-med';
+  if(v==='alto')return'rc-high';
+  if(v==='crítico'||v==='crítica')return'rc-crit';
+  return'rc-low';
+}
+function riskTagColor(r){
+  const v=(r||'').toLowerCase();
+  if(v==='bajo'||v==='normal')return'background:rgba(16,185,129,0.15);color:#6EE7B7;';
+  if(v==='medio'||v==='urgente')return'background:rgba(244,200,66,0.15);color:#F4C842;';
+  if(v==='alto')return'background:rgba(249,115,22,0.15);color:#FDBA74;';
+  return'background:rgba(239,68,68,0.15);color:#FCA5A5;';
+}
+
+function renderSmsHistory(){
+  const wrap=document.getElementById('smsHistoryList');
+  document.getElementById('tbSms').textContent=smsHistory.length;
+  if(!smsHistory.length){ wrap.innerHTML='<div class="empty-mini">Aún no has enviado reportes SMS en esta sesión.</div>'; return; }
+  wrap.innerHTML=smsHistory.map(r=>{
+    const d=new Date(r.timestamp);
+    return`<div class="report-card ${riskClass(r.riesgo)}">
+      <div class="rc-top"><span class="rc-cat">${catLabel(r.categoria)}</span><span class="rc-risk-tag" style="${riskTagColor(r.riesgo)}">${r.riesgo}</span></div>
+      <div class="rc-desc">${escapeHtml(r.descripcion)}</div>
+      <div class="rc-meta">${r.vuelo} · ${d.toLocaleDateString('es-ES',{day:'2-digit',month:'short'})} ${d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})}</div>
+    </div>`;
+  }).join('');
+}
+function catLabel(c){
+  const map={FOD:'🔩 FOD',GSE:'🚜 Equipo GSE',RAMP:'🛞 Rampa',CARGA:'📦 Carga/Equipaje',PAX:'🧍 Pasajero',AERONAVE:'✈️ Daño a Aeronave',PROCEDIMIENTO:'📋 Procedimiento',OTRO:'❓ Otro'};
+  return map[c]||c;
+}
+function escapeHtml(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+// ══════════════════════════════════════════════════════
+//  SOLICITUDES ADICIONALES
+// ══════════════════════════════════════════════════════
+let solType=null, solPriority=null, solHistory=[];
+
+function submitSolicitud(){
+  const detail=document.getElementById('solDetail').value.trim();
+  const requester=document.getElementById('solRequester').value.trim();
+  if(!solType){ solMsg('Selecciona el tipo de solicitud.','error'); return; }
+  if(!solPriority){ solMsg('Selecciona la prioridad.','error'); return; }
+  if(!detail){ solMsg('Agrega el detalle de la solicitud.','error'); return; }
+  if(!requester){ solMsg('Indica tu nombre y cargo.','error'); return; }
+
+  const payload={
+    action:'submitSolicitud',
+    aerolinea:'United Airlines',
+    tipo:solType,
+    vuelo:document.getElementById('solFlight').value.trim()||'–',
+    fechaHora:document.getElementById('solDateTime').value||new Date().toISOString(),
+    crewCount:document.getElementById('solCrewCount').value||'',
+    origenDestino:document.getElementById('solOriginDest').value.trim()||'',
+    detalle:detail,
+    prioridad:solPriority,
+    solicitante:requester,
+    timestamp:new Date().toISOString()
+  };
+
+  const btn=document.getElementById('solSubmitBtn'), txt=document.getElementById('solSubmitTxt');
+  btn.disabled=true; txt.textContent='Enviando…';
+
+  const cb='solCb'+Date.now();
+  const params=new URLSearchParams(payload).toString();
+  jsonp(cb, GAS_URL+'?'+params, 12000,
+    data=>{
+      btn.disabled=false; txt.textContent='📝 Enviar Solicitud';
+      if(data&&data.success!==false){
+        solMsg('✓ Solicitud enviada. El equipo de operaciones la revisará y confirmará.','success');
+        solHistory.unshift(payload); renderSolHistory(); clearSolForm();
+      } else {
+        solMsg('✗ '+(data&&data.message?data.message:'No se pudo enviar. Intenta nuevamente.'),'error');
+        solHistory.unshift(payload); renderSolHistory();
+      }
+    },
+    ()=>{
+      btn.disabled=false; txt.textContent='📝 Enviar Solicitud';
+      solMsg('⚠ No se pudo confirmar el envío al servidor, pero tu solicitud quedó guardada localmente en esta sesión.','error');
+      solHistory.unshift(payload); renderSolHistory();
+    }
+  );
+}
+
+function clearSolForm(){
+  document.getElementById('solFlight').value='';
+  document.getElementById('solDateTime').value='';
+  document.getElementById('solCrewCount').value='';
+  document.getElementById('solOriginDest').value='';
+  document.getElementById('solDetail').value='';
+  document.getElementById('solRequester').value='';
+  document.querySelectorAll('#solTypeChips .chip').forEach(c=>c.classList.remove('selected'));
+  document.querySelectorAll('#solPrioritySelect .risk-btn').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('solCrewCountWrap').style.display='none';
+  document.getElementById('solOriginDestWrap').style.display='none';
+  solType=null; solPriority=null;
+}
+
+function solMsg(text,type){
+  const m=document.getElementById('solMsg');
+  m.textContent=text; m.className='sms-msg '+type; m.style.display='block';
+  setTimeout(()=>{ m.style.display='none'; }, 6000);
+}
+
+function solTypeLabel(t){
+  const map={CREW_TRANSPORT:'🚐 Transporte de Crew',AIRCRAFT_RELOCATION:'✈️ Traslado de Aeronave',ADDITIONAL_GSE:'🚜 Equipo GSE Adicional',DEICING:'❄️ Deicing',CATERING:'🍽️ Catering Extra',OTRO:'📌 Otro'};
+  return map[t]||t;
+}
+
+function renderSolHistory(){
+  const wrap=document.getElementById('solHistoryList');
+  document.getElementById('tbSol').textContent=solHistory.length;
+  if(!solHistory.length){ wrap.innerHTML='<div class="empty-mini">Aún no has enviado solicitudes en esta sesión.</div>'; return; }
+  wrap.innerHTML=solHistory.map(r=>{
+    const d=new Date(r.timestamp);
+    return`<div class="report-card ${riskClass(r.prioridad)}">
+      <div class="rc-top"><span class="rc-cat">${solTypeLabel(r.tipo)}</span><span class="rc-risk-tag" style="${riskTagColor(r.prioridad)}">${r.prioridad}</span></div>
+      <div class="rc-desc">${escapeHtml(r.detalle)}</div>
+      <div class="rc-meta">${r.vuelo} · ${d.toLocaleDateString('es-ES',{day:'2-digit',month:'short'})} ${d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})}</div>
+    </div>`;
+  }).join('');
 }
 </script>
 </body>
