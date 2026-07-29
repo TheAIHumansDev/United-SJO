@@ -1160,17 +1160,17 @@ let lbxPhotos = [], lbxIdx = 0, lbxReport = null;
 (function authGuard(){
   try{
     const raw = sessionStorage.getItem('uaUser');
-    if(!raw){ window.location.href='login-united.html'; return; }
+    if(!raw){ window.location.href='login-Admin.html'; return; }
     const user = JSON.parse(raw);
     if(!user || String(user.role||'').trim().toLowerCase()!=='united'){
       sessionStorage.removeItem('uaUser');
-      window.location.href='login-united.html'; return;
+      window.location.href='login-Admin.html'; return;
     }
     document.getElementById('userPillName').textContent = user.username || 'United';
-  }catch(e){ window.location.href='login-united.html'; }
+  }catch(e){ window.location.href='login-Admin.html'; }
 })();
 function logout(){
-  if(confirm('¿Cerrar sesión?')){ sessionStorage.removeItem('uaUser'); window.location.href='login-united.html'; }
+  if(confirm('¿Cerrar sesión?')){ sessionStorage.removeItem('uaUser'); window.location.href='login-Admin.html'; }
 }
 
 // ══ SCROLL PLANE ANIMATION ══
