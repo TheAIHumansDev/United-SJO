@@ -1475,12 +1475,27 @@ function fdmCheckpoints(r){
   const cps=r.checkpoints||[];
   const cpMap=Object.fromEntries(cps.map(c=>[c.label,c]));
   const cpList=getCpList(r.flightType);
-  document.getElementById('fdmCps').innerHTML=cpList.map(label=>{
+  const cards = cpList.map(label=>{
     const cp=cpMap[label];const icon=CP_ICONS[label]||'📍';
     if(!cp)return`<div class="cp-card cp-pend"><div class="cp-icon i-pend">${icon}</div><div class="cp-info"><div class="cp-name">${label}</div><div class="cp-ts">Pendiente</div></div><div class="cp-badge b-pend">–</div></div>`;
     const byLine = cp.realizadoPor ? `<div class="cp-by">👤 ${cp.realizadoPor}</div>` : '';
     return`<div class="cp-card cp-done"><div class="cp-icon i-done">${icon}</div><div class="cp-info"><div class="cp-name">${label}</div><div class="cp-ts">${fmtTime(cp.timestamp)}</div>${byLine}</div><div class="cp-badge b-done">✓</div></div>`;
-  }).join('');
+  });
+
+  // Waste / Water: la columna P (Realizado Por) viene keyed por label+sub (columna L).
+  // Sus labels reales no coinciden con "Waste & Water" de CP_TURN/RON, así que se
+  // muestran aparte, uno por cada sub-item registrado, sin depender de esa lista fija.
+  cps.filter(c => /waste|water/i.test(c.label||'') && !cpList.includes(c.label))
+     .forEach(cp=>{
+        const icon = /water/i.test(cp.label) ? '💧' : '🗑️';
+        const subLabel = cp.sub ? ` (${cp.sub})` : '';
+        const byLine = cp.realizadoPor
+          ? `<div class="cp-by">👤 ${cp.realizadoPor}</div>`
+          : '<div class="cp-by" style="opacity:.5">Sin registrar</div>';
+        cards.push(`<div class="cp-card cp-done"><div class="cp-icon i-done">${icon}</div><div class="cp-info"><div class="cp-name">${cp.label}${subLabel}</div><div class="cp-ts">${fmtTime(cp.timestamp)}</div>${byLine}</div><div class="cp-badge b-done">✓</div></div>`);
+     });
+
+  document.getElementById('fdmCps').innerHTML=cards.join('');
 }
 
 // ══ ANALYTICS ══
