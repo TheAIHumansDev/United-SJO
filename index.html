@@ -505,6 +505,7 @@ body { font-family:'Inter',sans-serif; background:var(--ua-dark); min-height:100
 .cp-info { flex:1; min-width:0; }
 .cp-name { font-size:10px; font-weight:600; font-family:'JetBrains Mono',monospace; color:var(--ua-text); margin-bottom:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .cp-ts   { font-size:9px; color:var(--ua-muted); font-family:'JetBrains Mono',monospace; }
+.cp-by { font-size:9px; color:var(--ua-sky); font-family:'JetBrains Mono',monospace; margin-top:1px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .cp-badge { font-size:9px; font-weight:700; padding:2px 6px; border-radius:5px; flex-shrink:0; font-family:'JetBrains Mono',monospace; }
 .b-done { background:rgba(16,185,129,0.15); color:#34D399; }
 .b-pend { background:rgba(0,80,160,0.1); color:var(--ua-muted); }
@@ -1288,7 +1289,7 @@ function normalize(r){
   // Checkpoints
   let photoCount=0, checkpoints=[];
   if(Array.isArray(r.checkpoints)){
-    r.checkpoints.forEach(cp=>{if(cp.photoUrl||cp.thumbUrl)photoCount++;checkpoints.push({label:cp.label,timestamp:cp.timestamp,photoUrl:cp.photoUrl||null,thumbUrl:cp.thumbUrl||null});});
+    r.checkpoints.forEach(cp=>{if(cp.photoUrl||cp.thumbUrl)photoCount++;checkpoints.push({label:cp.label,timestamp:cp.timestamp,photoUrl:cp.photoUrl||null,thumbUrl:cp.thumbUrl||null,realizadoPor:cp.realizadoPor||null});});
   } else {
     cpList.forEach(label=>{
       const ts=g(label); if(!ts) return;
@@ -1477,7 +1478,8 @@ function fdmCheckpoints(r){
   document.getElementById('fdmCps').innerHTML=cpList.map(label=>{
     const cp=cpMap[label];const icon=CP_ICONS[label]||'📍';
     if(!cp)return`<div class="cp-card cp-pend"><div class="cp-icon i-pend">${icon}</div><div class="cp-info"><div class="cp-name">${label}</div><div class="cp-ts">Pendiente</div></div><div class="cp-badge b-pend">–</div></div>`;
-    return`<div class="cp-card cp-done"><div class="cp-icon i-done">${icon}</div><div class="cp-info"><div class="cp-name">${label}</div><div class="cp-ts">${fmtTime(cp.timestamp)}</div></div><div class="cp-badge b-done">✓</div></div>`;
+    const byLine = cp.realizadoPor ? `<div class="cp-by">👤 ${cp.realizadoPor}</div>` : '';
+    return`<div class="cp-card cp-done"><div class="cp-icon i-done">${icon}</div><div class="cp-info"><div class="cp-name">${label}</div><div class="cp-ts">${fmtTime(cp.timestamp)}</div>${byLine}</div><div class="cp-badge b-done">✓</div></div>`;
   }).join('');
 }
 
