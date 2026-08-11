@@ -1081,6 +1081,10 @@ body { font-family:'Inter',sans-serif; background:var(--ua-dark); min-height:100
         <div id="fdmInspector"></div>
       </div>
       <div>
+        <div class="fdm-stitle">👥 Personal en Vuelo</div>
+        <div class="cp-grid" id="fdmPersonal"></div>
+      </div>
+      <div>
         <div class="fdm-stitle">⏱ Línea de Tiempo del Vuelo</div>
         <div class="tl-wrap"><div class="tl-track" id="fdmTl"></div></div>
       </div>
@@ -1420,6 +1424,7 @@ function fdmRender(r){
   if(done){sb.className='fdm-status-done';sb.textContent='✓ COMPLETADO';}
   else{sb.className='fdm-status-live';sb.innerHTML='<span style="width:6px;height:6px;background:#10B981;border-radius:50%;display:inline-block;animation:livePulse 1.6s ease-in-out infinite;margin-right:4px;"></span>EN PROCESO';}
   fdmKPIs(r); fdmInspector(r); fdmTimeline(r); fdmCheckpoints(r);
+  fdmFetchPersonal(r.flightKeyRaw || r.flightKey); // ← nuevo
 }
 
 function fdmKPIs(r){
@@ -1452,6 +1457,65 @@ function fdmInspector(r){
       <div class="insp-right"><div class="irlbl">Inicio de Operación</div><div class="irts">${fmtDT(new Date(parseTs(r)||Date.now()))}</div></div>
     </div>`;
 }
+
+function fdmFetchPersonal(flightKeyRaw){
+  const box=document.getElementById('fdmPersonal');
+  if(!box) return;
+  if(!flightKeyRaw){ box.innerHTML='<div style="color:var(--ua-muted);font-size:12px;padding:8px;">Sin vuelo válido para buscar personal.</div>'; return; }
+  box.innerHTML='<div style="color:var(--ua-muted);font-size:12px;padding:8px;">Cargando personal…</div>';
+  const cb='fdmPersCb_'+Date.now();
+  const url=GAS_URL+'?action=getPersonalVuelo&flightKey='+encodeURIComponent(flightKeyRaw)+'&callback='+cb;
+  const old=document.getElementById('_sc_fdmPers'); if(old)old.remove();
+  const timer=setTimeout(()=>{
+    if(window[cb]){ delete window[cb]; box.innerHTML='<div style="color:#FCA5A5;font-size:12px;padding:8px;">Tiempo de espera agotado.</div>'; }
+    const s=document.getElementById('_sc_fdmPers'); if(s)s.remove();
+  },8000);
+  window[cb]=data=>{
+    clearTimeout(timer); delete window[cb];
+    const s=document.getElementById('_sc_fdmPers'); if(s)s.remove();
+    if(data&&data.success&&Array.isArray(data.rows)&&data.rows.length) renderFdmPersonal(data.rows);
+    else box.innerHTML='<div style="color:var(--ua-muted);font-size:12px;padding:8px;">Sin personal registrado para este vuelo.</div>';
+  };
+  const script=document.createElement('script');
+  script.id='_sc_fdmPers';
+  script.onerror=()=>{ clearTimeout(timer); if(window[cb])delete window[cb]; script.remove(); box.innerHTML='<div style="color:#FCA5A5;font-size:12px;padding:8px;">Error al cargar personal.</div>'; };
+  document.body.appendChild(script);
+  script.src=url;
+}
+
+function parseVigenciaDate(v){
+  const m=String(v||'').match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if(!m)return null;
+  return new Date(+m[3],+m[2]-1,+m[1]);
+}
+
+function renderFdmPersonal(rows){
+  const box=document.getElementById('fdmPersonal');
+  const today=new Date();
+  box.innerHTML=rows.map(p=>{
+    const vigDate=parseVigenciaDate(p.vigencia);
+    const daysLeft=vigDate?Math.round((vigDate-today)/86400000):null;
+    let badgeClass='b-done', vigLabel=p.vigencia||'–';
+    if(daysLeft!==null){
+      if(daysLeft<0){ badgeClass='b-pend'; vigLabel='⚠ Vencida '+p.vigencia; }
+      else if(daysLeft<=30){ badgeClass='b-pend'; vigLabel='⏳ '+daysLeft+'d'; }
+    }
+    const he=Number(p.horasExtra)||0;
+    const initials=mkInit(p.nombre||'?');
+    return `<div class="cp-card cp-done" style="align-items:flex-start;">
+      <div class="insp-av-big" style="width:32px;height:32px;font-size:11px;flex-shrink:0;">${initials}</div>
+      <div class="cp-info">
+        <div class="cp-name" style="white-space:normal;">${p.nombre||'–'}</div>
+        <div class="cp-ts">${p.empresa||'–'} · ${p.cedula||'–'}</div>
+        <div class="cp-ts">📍 ${p.posicionPersona||'–'} · 🪪 ${p.numeroCredencial||'–'}</div>
+        ${he>0?`<div class="cp-ts" style="color:var(--ua-gold);">⏱ ${he}h extra${p.jornada?' · '+p.jornada:''}</div>`:''}
+        ${p.fotoUrl?`<div style="margin-top:3px;font-size:10px;"><a href="${p.fotoUrl}" target="_blank" rel="noopener" style="color:var(--ua-sky);">🪪 Ver credencial</a></div>`:''}
+      </div>
+      <div class="cp-badge ${badgeClass}" style="white-space:normal;text-align:right;max-width:80px;">${vigLabel}</div>
+    </div>`;
+  }).join('');
+}
+  
 
 function fdmTimeline(r){
   const tl=document.getElementById('fdmTl');
